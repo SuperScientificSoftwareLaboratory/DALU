@@ -1,0 +1,49 @@
+############################################################################
+#
+#  Program:         SuperLU_DIST
+#
+#  Module:          make.inc
+#
+#  Purpose:         Top-level Definitions
+#
+#  Creation date:   March 1, 2016	version 5.0.0
+#
+#  Modified:	    
+#		    
+#
+############################################################################
+#
+#  The name of the libraries to be created/linked to
+#
+SuperLUroot	= /Users/xsli/Dropbox/Codes/SuperLU/superlu_dist.git/
+DSUPERLULIB   	= $(SuperLUroot)/lib/libsuperlu_dist.a
+INCLUDEDIR   	= $(SuperLUroot)/SRC
+
+BLASLIB		= $(SuperLUroot)/CBLAS/libblas.a
+# LAPACKLIB	=
+# SLU_HAVE_LAPACK = TRUE
+
+HAVE_PARMETIS = TRUE
+PARMETIS_ROOT=/Users/xsli/Dropbox/xsli-lib/static/parmetis-4.0.3
+
+LIBS		= $(DSUPERLULIB) ${BLASLIB} ${PARMETIS_ROOT}/build/Darwin-x86_64/libparmetis/libparmetis.a ${PARMETIS_ROOT}/build/Darwin-x86_64/libmetis/libmetis.a $(LAPACKLIB)
+
+#
+#  The archiver and the flag(s) to use when building archive (library)
+#  If your system has no ranlib, set RANLIB = echo.
+#
+ARCH         = /usr/bin/ar
+ARCHFLAGS    = cr
+RANLIB       = /usr/bin/ranlib
+
+CC           = mpicc ##/Users/xsli/lib/mpich2-install/bin/mpicc
+CFLAGS 	     = -O3 -DNDEBUG -I${INCLUDEDIR} -I${PARMETIS_ROOT}/metis/include -I${PARMETIS_ROOT}/include  -DDEBUGlevel=0 -DPRNTlevel=0 -std=c99 -g
+#CFLAGS       += -openmp
+#XSDK_INDEX_SIZE = 64 ## 64-bit integer
+# CFLAGS       +=  
+NOOPTS       = -O0
+FORTRAN	     = /usr/local/bin/gfortran
+
+LOADER       = $(CC)
+LOADOPTS     = -openmp
+# LOADOPTS     = -Wl,-rpath,/Users/xsli/Dropbox/Codes/SuperLU/superlu_dist.git/xsli-build/lib
